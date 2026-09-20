@@ -35,4 +35,4 @@ class ProjectMember(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user} - {self.project.name} ({self.role})"
+        return f"{self.user.id} - {self.project.name} ({self.role})"
