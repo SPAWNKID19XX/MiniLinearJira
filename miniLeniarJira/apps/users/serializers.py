@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import User
+from config.settings import AUTH_USER_MODEL
 
 
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
-    model = User
+    model = AUTH_USER_MODEL
     fields = ["first_name", "last_name", "email", "password"]
     extra_kwargs= {
       "password":{
@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     }
 
   def create(self, validated_data):
-    return User.objects.create_user(**validated_data)
+    return AUTH_USER_MODEL.objects.create_user(**validated_data)
 
   def update(self, instance, validated_data):
 
