@@ -16,10 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.users.models import User
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/api/v1/', include("apps.users.urls")),
-    #path('projects/api/v1/', include("apps.projects.urls")),
+    path('projects/api/v1/', include("apps.projects.urls")),
 ]

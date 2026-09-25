@@ -3,12 +3,8 @@ from django.conf import settings
 
 # Create your models here.
 class Project(models.Model):
+
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE, 
-        related_name='owned_projects'
-      )
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -17,10 +13,12 @@ class Project(models.Model):
         return self.name
 
 class ProjectMember(models.Model):
+    
     class Role(models.TextChoices):
         ADMIN = 'admin', 'Admin'
         OWNER = 'owner', 'Owner'
         MEMBER = 'member', 'Member'
+    
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='members')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='project_memberships')
     role = models.CharField(max_length=50, choices=Role.choices, default=Role.MEMBER) 
@@ -35,4 +33,4 @@ class ProjectMember(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.id} - {self.project.name} ({self.role})"
+      return f"{self.user.id} - {self.project.name} ({self.role})"
