@@ -3,7 +3,8 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet 
 from .serializers import ProjectSerializer
-from .models import Project
+from .permissions import IsProjectsAdmin
+from .models import Project, ProjectMember
 
 
 
@@ -14,13 +15,12 @@ def hello_world(requests):
 # Create your views here.
 class ProjectViewSet(ModelViewSet):
   serializer_class = ProjectSerializer
-  permission_classes = [IsAuthenticated]
+  permission_classes = [IsProjectsAdmin]
 
   def get_queryset(self):
-    projects = Project.objects.all()
-    return projects
-
-  
-  
-
-
+    my_projects = ProjectMember.objects.filter(
+      user = self.request.user.id
+    ).values_list(
+      "project_id",flat=True
+    )
+    return Project.objects.filter(id__in=my_projects)
