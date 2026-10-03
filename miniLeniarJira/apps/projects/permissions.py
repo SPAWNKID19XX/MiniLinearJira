@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 from django.shortcuts import get_object_or_404
 from .models import ProjectMember
 
-class IsProjectsAdmin(BasePermission):
+class IsAdminOrOwner(BasePermission):
 
   def has_permission(self, request, view):
     return True

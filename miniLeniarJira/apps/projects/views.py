@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet 
 from .serializers import ProjectSerializer
-from .permissions import IsProjectsAdmin
+from .permissions import IsAdminOrOwner
 from .models import Project, ProjectMember
 
 
@@ -15,7 +15,7 @@ def hello_world(requests):
 # Create your views here.
 class ProjectViewSet(ModelViewSet):
   serializer_class = ProjectSerializer
-  permission_classes = [IsProjectsAdmin]
+  permission_classes = [IsAdminOrOwner]
 
   def get_queryset(self):
     my_projects = ProjectMember.objects.filter(
